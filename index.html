@@ -1,0 +1,3181 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TOLL PARK MANAGEMENT SYSTEM</title>
+
+<style>
+    
+
+/* =========================
+RESET
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+overflow:hidden;
+background:#eef2f7;
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+.sidebar{
+width:60px;
+background:#12355b;
+display:flex;
+flex-direction:column;
+align-items:center;
+padding-top:10px;
+gap:10px;
+flex-shrink:0;
+box-shadow:2px 0 6px rgba(0,0,0,.08);
+}
+
+.menu{
+width:44px;
+height:44px;
+background:#28558f;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+font-size:9px;
+color:white;
+border-radius:10px;
+cursor:pointer;
+padding:2px;
+transition:.2s;
+}
+
+.menu:hover{
+background:#4472ac;
+}
+
+.activeMenu{
+background:#5f97db;
+}
+
+/* =========================
+MAIN
+========================= */
+
+.main{
+flex:1;
+padding:12px;
+overflow:auto;
+}
+
+/* =========================
+TOPBAR
+========================= */
+
+.topBar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+}
+
+.companyText{
+font-size:12px;
+font-weight:bold;
+color:#12355b;
+padding-left:4px;
+}
+
+.profileTop{
+display:flex;
+align-items:center;
+gap:6px;
+background:white;
+padding:6px 12px;
+border-radius:25px;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+.profileTop img{
+width:28px;
+height:28px;
+border-radius:50%;
+}
+
+.profileTop span{
+font-size:11px;
+color:#12355b;
+}
+
+/* =========================
+PAGES
+========================= */
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+/* =========================
+CARD
+========================= */
+
+.card{
+background:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+/* =========================
+PROFILE
+========================= */
+
+.profileTable{
+border-collapse:collapse;
+font-size:12px;
+width:100%;
+max-width:450px;
+}
+
+.profileTable td{
+border:1px solid #d8dde6;
+padding:7px 8px;
+}
+
+.profileTable td:first-child{
+width:120px;
+background:#f8fafc;
+font-weight:bold;
+}
+
+.profileTable input{
+width:100%;
+border:none;
+outline:none;
+font-size:12px;
+padding:4px;
+}
+
+/* =========================
+BUTTON
+========================= */
+
+button{
+padding:8px 14px;
+border:none;
+background:#12355b;
+color:white;
+font-size:11px;
+border-radius:6px;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+opacity:.9;
+}
+
+/* =========================
+INPUT HEADER
+========================= */
+
+.inputHeader{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+margin-bottom:15px;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.inputTitle{
+font-size:14px;
+font-weight:bold;
+color:#12355b;
+}
+
+/* =========================
+PERIODE
+========================= */
+
+.periodeTable{
+border-collapse:collapse;
+font-size:11px;
+}
+
+.periodeTable td{
+border:1px solid #d8dde6;
+padding:5px 6px;
+background:white;
+}
+
+.periodeTable select{
+border:none;
+outline:none;
+font-size:11px;
+padding:3px;
+}
+
+/* =========================
+MAIN TABLE
+========================= */
+
+.mainTable{
+width:100%;
+border-collapse:collapse;
+font-size:10px;
+table-layout:fixed;
+}
+
+.mainTable th{
+border:1px solid #b9c4d3;
+padding:5px;
+background:#12355b;
+color:white;
+text-align:center;
+font-weight:bold;
+}
+
+.mainTable td{
+border:1px solid #d8dde6;
+padding:3px;
+text-align:center;
+vertical-align:middle;
+background:white;
+}
+
+.mainTable input{
+width:100%;
+border:none;
+outline:none;
+font-size:10px;
+padding:3px;
+text-align:center;
+background:transparent;
+}
+
+/* =========================
+GROUP COLORS
+========================= */
+
+.groupWhite td{
+background:#ffffff;
+}
+
+.groupGray td{
+background:#f1f3f5;
+}
+
+/* =========================
+EDITING STATE
+========================= */
+
+.editingRow td{
+background:#fff3cd !important;
+}
+
+/* =========================
+WIDTHS
+========================= */
+
+.colDate{ width:42px; }
+.colNo{ width:28px; }
+.colFlazz{ width:70px; }
+.colCash{ width:70px; }
+.colKM{ width:50px; }
+.colAction{ width:78px; }
+
+/* =========================
+ACTION
+========================= */
+
+.actionCell{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:4px;
+min-height:28px;
+}
+
+.actionBtn{
+background:transparent;
+border:none;
+cursor:pointer;
+font-size:15px;
+padding:1px 3px;
+color:black;
+}
+
+/* =========================
+SUBTOTAL
+========================= */
+
+.subtotalWrap{
+display:none;
+justify-content:flex-end;
+margin-top:12px;
+}
+
+.subtotalTable{
+border-collapse:collapse;
+font-size:11px;
+font-weight:bold;
+}
+
+.subtotalTable td{
+border:1px solid #d8dde6;
+padding:6px 12px;
+}
+
+.subtotalTable td:first-child{
+background:#f8fafc;
+}
+
+/* =========================
+ADD ROW
+========================= */
+
+.addRowWrap{
+display:flex;
+justify-content:flex-end;
+margin-top:12px;
+}
+
+/* =========================
+HOME
+========================= */
+
+.homeText{
+height:70vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+font-weight:bold;
+color:#12355b;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+.main{
+padding:8px;
+}
+
+.card{
+padding:10px;
+}
+
+.mainTable{
+font-size:9px;
+}
+
+.mainTable input{
+font-size:9px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="menu" data-page="home">
+🏠<br>Home
+</div>
+
+<div class="menu activeMenu" data-page="input">
+📝<br>Input
+</div>
+
+<div class="menu" data-page="toll">
+🛣<br>Toll
+</div>
+
+<div class="menu" data-page="bbm">
+⛽<br>BBM
+</div>
+
+<div class="menu" data-page="ot">
+⏰<br>OT
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topBar">
+
+<div class="companyText">
+PT JASA MANDIRI TECHGRAHA
+</div>
+
+<div class="profileTop" id="profileShortcut">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+
+<span>Profile</span>
+
+</div>
+
+</div>
+
+<!-- HOME -->
+
+<div id="home" class="page">
+
+<div class="card homeText">
+PT JASA MANDIRI TECHGRAHA
+</div>
+
+</div>
+
+<!-- PROFILE -->
+
+<div id="profile" class="page">
+
+<div class="card">
+
+<h3 style="margin-bottom:15px;">
+PROFILE
+</h3>
+
+<table class="profileTable">
+
+<tr>
+<td>Nama</td>
+<td><input id="nama"></td>
+</tr>
+
+<tr>
+<td>NIK</td>
+<td><input id="nik"></td>
+</tr>
+
+<tr>
+<td>User</td>
+<td><input id="user"></td>
+</tr>
+
+<tr>
+<td>Lokasi Kerja</td>
+<td><input id="lokasi"></td>
+</tr>
+
+</table>
+
+<div style="margin-top:15px">
+
+<button id="btnSaveProfile">
+Simpan Data
+</button>
+
+<button id="btnEditProfile">
+Edit
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- INPUT -->
+
+<div id="input" class="page active">
+
+<div class="card">
+
+<div class="inputHeader">
+
+<div class="inputTitle">
+INPUT DATA TOLL PARKIR
+</div>
+
+<table class="periodeTable">
+
+<tr>
+
+<td>Periode</td>
+
+<td>
+<select id="bulan">
+
+<option value="">Bulan</option>
+
+<option>Januari</option>
+<option>Februari</option>
+<option>Maret</option>
+<option>April</option>
+<option>Mei</option>
+<option>Juni</option>
+<option>Juli</option>
+<option>Agustus</option>
+<option>September</option>
+<option>Oktober</option>
+<option>November</option>
+<option>Desember</option>
+
+</select>
+</td>
+
+<td>
+
+<select id="tahun">
+
+<option value="">Tahun</option>
+
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
+<option>2029</option>
+<option>2030</option>
+
+</select>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<table class="mainTable" id="inputTable">
+
+<thead>
+
+<tr>
+
+<th class="colDate">Date</th>
+<th class="colNo">No</th>
+<th>Start</th>
+<th>Arrive</th>
+<th>Parking Loc</th>
+<th class="colFlazz">Flazz BCA</th>
+<th class="colCash">Cash</th>
+<th class="colKM">KM</th>
+<th>Total</th>
+<th class="colAction">Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+<!-- RENDER BY JS -->
+
+</tbody>
+
+</table>
+
+<div class="subtotalWrap" id="subtotalWrap">
+
+<table class="subtotalTable">
+
+<tr>
+
+<td>Sub Total</td>
+
+<td id="subTotal"></td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="addRowWrap">
+
+<button id="btnAddRow">
++ Tambah Baris
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- OTHER PAGES -->
+
+<div id="toll" class="page">
+<div class="card">HALAMAN TOLL</div>
+</div>
+
+<div id="bbm" class="page">
+<div class="card">HALAMAN BBM</div>
+</div>
+
+<div id="ot" class="page">
+<div class="card">HALAMAN OVERTIME</div>
+</div>
+
+<!-- JS PART 2 HERE -->
+<script>
+
+/* =========================================
+FINAL CLEAN ARCHITECTURE V4
+PART 2
+STATE + STORAGE + PROFILE + UTILITIES
+========================================= */
+
+
+/* =========================================
+APP STATE ( SINGLE SOURCE OF TRUTH )
+========================================= */
+
+const STATE = {
+
+    storageKey : "toll_v4_data",
+
+    profileKey : "toll_v4_profile",
+
+    periodKey : "toll_v4_period",
+
+    /* active page */
+
+    page : "input",
+
+    /* selected period */
+
+    currentPeriod : "",
+
+    /* active editing row id */
+
+    editingId : null,
+
+    /* autosave version */
+
+    saveVersion : 0,
+
+    /* profile */
+
+    profile : {
+
+        nama   : "",
+
+        nik    : "",
+
+        user   : "",
+
+        lokasi : ""
+
+    },
+
+    /* rows */
+
+    rows : []
+
+};
+
+
+
+/* =========================================
+DOM CACHE
+========================================= */
+
+const DOM = {
+
+    tableBody :
+
+        document.getElementById(
+            "tableBody"
+        ),
+
+    bulan :
+
+        document.getElementById(
+            "bulan"
+        ),
+
+    tahun :
+
+        document.getElementById(
+            "tahun"
+        ),
+
+    subtotalWrap :
+
+        document.getElementById(
+            "subtotalWrap"
+        ),
+
+    subTotal :
+
+        document.getElementById(
+            "subTotal"
+        ),
+
+    btnAddRow :
+
+        document.getElementById(
+            "btnAddRow"
+        ),
+
+btnSaveProfile :
+
+    document.getElementById(
+        "btnSaveProfile"
+    ),
+
+btnEditProfile :
+
+    document.getElementById(
+        "btnEditProfile"
+    ),
+
+};
+
+
+
+/* =========================================
+UTILITIES
+========================================= */
+
+function qs(selector){
+
+    return document.querySelector(
+        selector
+    );
+
+}
+
+
+function qsa(selector){
+
+    return document.querySelectorAll(
+        selector
+    );
+
+}
+
+
+function uid(){
+
+    return Date.now()
+
+        +
+
+        Math.floor(
+
+            Math.random()*1000
+
+        );
+
+}
+
+
+function formatCurrency(number){
+
+    number = Number(number)||0;
+
+    if(number<=0){
+
+        return "";
+    }
+
+    return "Rp " +
+
+        number.toLocaleString(
+            "id-ID"
+        );
+
+}
+
+
+function parseCurrency(value){
+
+    if(!value){
+
+        return 0;
+    }
+
+    return Number(
+
+        String(value)
+
+        .replace(
+            /[^0-9]/g,
+            ""
+        )
+
+    ) || 0;
+
+}
+
+
+function parseNumber(value){
+
+    if(!value){
+
+        return 0;
+    }
+
+    return Number(
+
+        String(value)
+
+        .replace(
+            /[^0-9]/g,
+            ""
+        )
+
+    ) || 0;
+
+}
+
+
+function safeJSON(text){
+
+    try{
+
+        let obj = JSON.parse(text);
+
+        if(
+
+            typeof obj !== "object"
+
+            ||
+
+            obj===null
+
+        ){
+
+            return null;
+        }
+
+        return obj;
+
+    }
+
+    catch{
+
+        return null;
+    }
+
+}
+
+
+
+/* =========================================
+PERIOD ENGINE
+========================================= */
+
+function getCurrentPeriod(){
+
+    let bulan = DOM.bulan.value;
+
+    let tahun = DOM.tahun.value;
+
+    if(
+
+        !bulan ||
+
+        !tahun
+
+    ){
+
+        return "";
+    }
+
+    return bulan + "-" + tahun;
+
+}
+
+
+function updatePeriod(){
+
+    STATE.currentPeriod =
+
+        getCurrentPeriod();
+
+}
+
+
+
+/* =========================================
+ROW FACTORY
+========================================= */
+
+function createRow(data={}){
+
+    return {
+
+        id :
+
+            data.id || uid(),
+
+        tanggal :
+
+            data.tanggal || "",
+
+        start :
+
+            data.start || "",
+
+        arrive :
+
+            data.arrive || "",
+
+        parking :
+
+            data.parking || "",
+
+        flazz :
+
+            data.flazz || "",
+
+        cash :
+
+            data.cash || "",
+
+        km :
+
+            data.km || "",
+
+        locked :
+
+            data.locked || false
+
+    };
+
+}
+
+
+
+/* =========================================
+STORAGE ENGINE
+========================================= */
+
+const Storage = {
+
+
+    /* save rows by period */
+
+    saveRows(){
+
+        if(
+
+            !STATE.currentPeriod
+
+        ){
+
+            return;
+        }
+
+
+        let allData =
+
+            safeJSON(
+
+                localStorage.getItem(
+                    STATE.storageKey
+                )
+
+            ) || {};
+
+
+        allData[
+            STATE.currentPeriod
+        ] = STATE.rows;
+
+
+        localStorage.setItem(
+
+            STATE.storageKey,
+
+            JSON.stringify(
+                allData
+            )
+
+        );
+
+
+        localStorage.setItem(
+
+            STATE.periodKey,
+
+            STATE.currentPeriod
+
+        );
+
+    },
+
+
+    /* load rows by period */
+
+    loadRows(){
+
+        if(
+
+            !STATE.currentPeriod
+
+        ){
+
+            STATE.rows = [];
+
+            return;
+        }
+
+
+        let allData =
+
+            safeJSON(
+
+                localStorage.getItem(
+                    STATE.storageKey
+                )
+
+            ) || {};
+
+
+        let rows =
+    allData[
+        STATE.currentPeriod
+    ] || [];
+
+if(
+    !Array.isArray(rows)
+){
+    rows = [];
+}
+
+STATE.rows =
+    rows.map(row=>
+
+        createRow(row)
+
+    );
+
+    },
+
+
+    /* profile save */
+
+    saveProfile(){
+
+        localStorage.setItem(
+
+            STATE.profileKey,
+
+            JSON.stringify(
+
+                STATE.profile
+
+            )
+
+        );
+
+    },
+
+
+    /* profile load */
+
+    loadProfile(){
+
+        let data =
+
+            safeJSON(
+
+                localStorage.getItem(
+                    STATE.profileKey
+                )
+
+            );
+
+
+        if(!data){
+
+            return;
+        }
+
+
+        STATE.profile = {
+
+            nama :
+
+                data.nama || "",
+
+            nik :
+
+                data.nik || "",
+
+            user :
+
+                data.user || "",
+
+            lokasi :
+
+                data.lokasi || ""
+
+        };
+
+    },
+
+
+    /* restore last period */
+
+    restorePeriod(){
+
+        let last =
+
+            localStorage.getItem(
+
+                STATE.periodKey
+
+            );
+
+
+        if(!last){
+
+            return;
+        }
+
+
+        let split =
+
+            last.split("-");
+
+
+        if(
+
+            split.length !== 2
+
+        ){
+
+            return;
+        }
+
+
+        DOM.bulan.value = split[0];
+
+        DOM.tahun.value = split[1];
+
+        STATE.currentPeriod = last;
+
+    }
+
+};
+
+
+
+/* =========================================
+PROFILE ENGINE
+========================================= */
+
+function updateProfileButtons(){
+
+    let empty =
+
+        !STATE.profile.nama &&
+        !STATE.profile.nik &&
+        !STATE.profile.user &&
+        !STATE.profile.lokasi;
+
+
+    if(empty){
+
+        DOM.btnSaveProfile.style.display =
+            "inline-block";
+
+        DOM.btnEditProfile.style.display =
+            "none";
+
+        return;
+    }
+
+
+    DOM.btnSaveProfile.style.display =
+        "none";
+
+    DOM.btnEditProfile.style.display =
+        "inline-block";
+
+}
+
+function loadProfileToUI(){
+
+    document
+    .getElementById("nama")
+    .value = STATE.profile.nama;
+
+    document
+    .getElementById("nik")
+    .value = STATE.profile.nik;
+
+    document
+    .getElementById("user")
+    .value = STATE.profile.user;
+
+    document
+    .getElementById("lokasi")
+    .value = STATE.profile.lokasi;
+
+
+    [
+
+        "nama",
+        "nik",
+        "user",
+        "lokasi"
+
+    ]
+
+    .forEach(id=>{
+
+        document
+        .getElementById(id)
+        .readOnly = true;
+
+    });
+
+
+    updateProfileButtons();
+
+}
+
+
+
+function saveProfile(){
+
+    let nama =
+
+        document
+        .getElementById("nama")
+        .value.trim();
+
+    let nik =
+
+        document
+        .getElementById("nik")
+        .value.trim();
+
+    let user =
+
+        document
+        .getElementById("user")
+        .value.trim();
+
+    let lokasi =
+
+        document
+        .getElementById("lokasi")
+        .value.trim();
+
+
+    if(
+
+        !nama ||
+
+        !nik ||
+
+        !user ||
+
+        !lokasi
+
+    ){
+
+        alert(
+
+            "Semua data profile wajib diisi"
+
+        );
+
+        return;
+
+    }
+
+
+    let ok = confirm(
+
+        "Data sudah benar?"
+
+    );
+
+
+    if(!ok){
+    return;
+}
+
+    STATE.profile = {
+
+        nama   : nama,
+        nik    : nik,
+        user   : user,
+        lokasi : lokasi
+
+    };
+
+
+    Storage.saveProfile();
+
+
+    [
+
+        "nama",
+        "nik",
+        "user",
+        "lokasi"
+
+    ]
+
+    .forEach(id=>{
+
+        document
+        .getElementById(id)
+        .readOnly = true;
+
+    });
+
+
+    updateProfileButtons();
+
+}
+
+
+function editProfile(){
+
+    [
+
+        "nama",
+        "nik",
+        "user",
+        "lokasi"
+
+    ]
+
+    .forEach(id=>{
+
+        document
+        .getElementById(id)
+        .readOnly = false;
+
+    });
+
+
+    DOM.btnSaveProfile.style.display =
+        "inline-block";
+
+
+    DOM.btnEditProfile.style.display =
+        "none";
+
+}
+
+
+/* =========================================
+AUTOSAVE ENGINE
+VERSION SAFE
+========================================= */
+
+let autoSaveTimer = null;
+
+
+function triggerAutoSave(){
+
+    STATE.saveVersion++;
+
+    let current =
+
+        STATE.saveVersion;
+
+
+    clearTimeout(
+        autoSaveTimer
+    );
+
+
+    autoSaveTimer =
+
+        setTimeout(()=>{
+
+            if(
+
+                current !==
+
+                STATE.saveVersion
+
+            ){
+
+                return;
+            }
+
+
+            Storage.saveRows();
+
+        },
+
+        300);
+
+}
+
+
+
+/* =========================================
+CALC ENGINE
+========================================= */
+
+function getRowTotal(row){
+
+    let flazz =
+
+        parseCurrency(
+            row.flazz
+        );
+
+
+    let cash =
+
+        parseCurrency(
+            row.cash
+        );
+
+
+    return flazz + cash;
+
+}
+
+
+
+function getSubTotal(){
+
+    return STATE.rows
+
+    .filter(
+
+        row=>row.locked
+
+    )
+
+    .reduce(
+
+        (sum,row)=>{
+
+            return sum +
+
+                getRowTotal(row);
+
+        },
+
+        0
+
+    );
+
+}
+
+
+
+/* =========================================
+HELPERS
+========================================= */
+
+function hasActiveDraft(){
+
+    return STATE.editingId !== null;
+
+}
+
+
+
+function findRow(id){
+
+    return STATE.rows.find(
+
+        row=>row.id===id
+
+    );
+
+}
+
+
+
+function deleteById(id){
+
+    STATE.rows =
+
+        STATE.rows.filter(
+
+            row=>row.id!==id
+
+        );
+
+}
+
+
+
+/* =========================================
+PAGE ENGINE
+========================================= */
+
+function showPage(page){
+
+    STATE.page = page;
+
+
+    qsa(".page")
+
+    .forEach(el=>{
+
+        el.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    qsa(".menu")
+
+    .forEach(el=>{
+
+        el.classList.remove(
+            "activeMenu"
+        );
+
+    });
+
+
+    document
+    .getElementById(page)
+    .classList.add(
+        "active"
+    );
+
+
+    document
+    .querySelector(
+
+        '.menu[data-page="'+page+'"]'
+
+    )
+
+    ?.classList.add(
+
+        "activeMenu"
+
+    );
+
+}
+
+/* =========================================
+PART 3
+TABLE RENDER ENGINE
+NO DOM MUTATION ARCHITECTURE
+========================================= */
+
+
+/* =========================================
+GROUP ENGINE
+group rows by date
+========================================= */
+
+function groupRowsByDate(){
+
+    let groups = [];
+    let processedDates = [];
+
+    for(let i=0;i<STATE.rows.length;i++){
+
+        let row = STATE.rows[i];
+
+        /* row draft tampil sesuai posisi asli */
+        if(!row.locked){
+
+            groups.push({
+                single : true,
+                rows : [row]
+            });
+
+            continue;
+        }
+
+        /* group locked by date */
+        if(processedDates.includes(row.tanggal)){
+            continue;
+        }
+
+        let sameDateRows =
+            STATE.rows.filter(r=>
+
+                r.tanggal===row.tanggal
+
+                &&
+
+                r.locked===true
+            );
+
+        groups.push({
+
+            single : false,
+
+            date : row.tanggal,
+
+            rows : sameDateRows
+
+        });
+
+        processedDates.push(
+            row.tanggal
+        );
+    }
+
+    return groups;
+}
+
+
+/* =========================================
+ROW HTML FACTORY
+========================================= */
+
+function createActionHTML(row){
+
+    /* locked row */
+
+    if(row.locked){
+
+        return `
+
+        <div class="actionCell">
+
+            <button
+
+            class="actionBtn btnInsert"
+
+            data-id="${row.id}">
+
+            ➕
+
+            </button>
+
+            <button
+
+            class="actionBtn btnEdit"
+
+            data-id="${row.id}">
+
+            ✏️
+
+            </button>
+
+            <button
+
+            class="actionBtn btnDelete"
+
+            data-id="${row.id}">
+
+            🗑️
+
+            </button>
+
+        </div>
+
+        `;
+    }
+
+
+    /* draft row */
+
+    return `
+
+    <div class="actionCell">
+
+        <button
+
+        class="actionBtn btnSave"
+
+        data-id="${row.id}">
+
+        💾
+
+        </button>
+
+        <button
+
+        class="actionBtn btnDelete"
+
+        data-id="${row.id}">
+
+        🗑️
+
+        </button>
+
+    </div>
+
+    `;
+
+}
+
+
+
+/* =========================================
+INPUT FACTORY
+========================================= */
+
+function createInput(
+
+    className,
+
+    value,
+
+    editable = false
+
+){
+
+    let readonly =
+
+        editable ? "" : "readonly";
+
+
+    return `
+
+    <input
+
+    class="${className}"
+
+    value="${value || ""}"
+
+    ${readonly}
+
+    >
+
+    `;
+
+}
+
+
+
+/* =========================================
+BUILD SINGLE ROW
+========================================= */
+
+function buildRow(
+
+    row,
+
+    index,
+
+    totalRows,
+
+    colorClass
+
+){
+
+    let editing =
+
+        STATE.editingId===row.id
+
+        ? "editingRow"
+
+        : "";
+
+
+    let editable =
+
+        STATE.editingId===row.id;
+
+
+    let dateCell = "";
+
+
+    /* first row in group */
+
+    if(index===0){
+
+        dateCell = `
+
+        <td rowspan="${totalRows}">
+
+        ${createInput(
+
+            "tanggal",
+
+            row.tanggal,
+
+            editable
+
+        )}
+
+        </td>
+
+        `;
+    }
+
+
+    /* =========================================
+TOTAL HANYA MUNCUL DI ROW TERAKHIR GROUP DATE
+========================================= */
+
+let total = "";
+
+/* jika row terakhir dalam group */
+
+if(index === totalRows - 1){
+
+    let rowsInSameDate =
+
+        STATE.rows.filter(r =>
+
+            r.locked &&
+
+            r.tanggal === row.tanggal
+
+        );
+
+    let grandTotal =
+
+        rowsInSameDate.reduce(
+
+            (sum,r)=>{
+
+                let flazz =
+
+                    parseCurrency(
+                        r.flazz
+                    );
+
+                let cash =
+
+                    parseCurrency(
+                        r.cash
+                    );
+
+                return sum + flazz + cash;
+
+            },
+
+            0
+
+        );
+
+    total =
+
+        formatCurrency(
+
+            grandTotal
+
+        );
+}
+
+
+    return `
+
+    <tr
+
+    data-id="${row.id}"
+
+    class="${colorClass} ${editing}"
+
+    >
+
+        ${dateCell}
+
+        <td>
+
+            ${index+1}
+
+        </td>
+
+        <td>
+
+        ${createInput(
+
+            "start",
+
+            row.start,
+
+            editable
+
+        )}
+
+        </td>
+
+        <td>
+
+        ${createInput(
+
+            "arrive",
+
+            row.arrive,
+
+            editable
+
+        )}
+
+        </td>
+
+        <td>
+
+        ${createInput(
+
+            "parkingLoc",
+
+            row.parking,
+
+            editable
+
+        )}
+
+        </td>
+
+        <td>
+
+        ${createInput(
+
+            "flazz",
+
+            row.flazz,
+
+            editable
+
+        )}
+
+        </td>
+
+        <td>
+
+        ${createInput(
+
+            "cash",
+
+            row.cash,
+
+            editable
+
+        )}
+
+        </td>
+
+        <td>
+
+        ${createInput(
+
+            "km",
+
+            row.km,
+
+            editable
+
+        )}
+
+        </td>
+
+        <td>
+
+            ${total}
+
+        </td>
+
+        <td>
+
+            ${createActionHTML(row)}
+
+        </td>
+
+    </tr>
+
+    `;
+
+}
+
+
+
+/* =========================================
+RENDER TABLE
+FULL RENDER FROM STATE
+========================================= */
+
+function renderTable(){
+
+    let groups =
+
+        groupRowsByDate();
+
+
+    let html = "";
+
+    let colorIndex = 0;
+
+
+    groups.forEach(group=>{
+
+        let colorClass =
+
+            colorIndex % 2 === 0
+
+            ?
+
+            "groupWhite"
+
+            :
+
+            "groupGray";
+
+
+        group.rows.forEach(
+
+            (row,index)=>{
+
+                html +=
+
+                    buildRow(
+
+                        row,
+
+                        index,
+
+                        group.rows.length,
+
+                        colorClass
+
+                    );
+
+            }
+
+        );
+
+
+        colorIndex++;
+
+    });
+
+
+    DOM.tableBody.innerHTML = html;
+
+
+    renderSubtotal();
+
+    renderAddButton();
+
+}
+
+
+
+/* =========================================
+SUBTOTAL RENDER
+========================================= */
+
+function renderSubtotal(){
+
+    let subtotal =
+
+        getSubTotal();
+
+
+    if(
+
+        STATE.rows.length===0
+
+    ){
+
+        DOM.subtotalWrap
+
+        .style.display = "none";
+
+        DOM.subTotal.innerText = "";
+
+        return;
+    }
+
+
+    DOM.subtotalWrap
+
+    .style.display = "flex";
+
+
+    DOM.subTotal.innerText =
+
+        formatCurrency(
+
+            subtotal
+
+        );
+
+}
+
+
+
+/* =========================================
+ADD BUTTON STATE
+========================================= */
+
+function renderAddButton(){
+
+    if(
+
+        STATE.editingId !== null
+
+    ){
+
+        DOM.btnAddRow
+
+        .style.display = "none";
+
+        return;
+    }
+
+
+    DOM.btnAddRow
+
+    .style.display = "inline-block";
+
+}
+
+
+
+/* =========================================
+LOAD PERIOD DATA
+========================================= */
+
+function loadPeriodData(){
+
+    updatePeriod();
+
+
+    if(
+
+        !STATE.currentPeriod
+
+    ){
+
+        STATE.rows = [];
+
+        renderTable();
+
+        return;
+    }
+
+
+    Storage.loadRows();
+
+    renderTable();
+
+}
+
+
+
+/* =========================================
+RELOAD EVERYTHING
+========================================= */
+
+function refresh(){
+
+    renderTable();
+
+    triggerAutoSave();
+
+}
+
+/* =========================================
+PART 4
+ACTION ENGINE
+STATE DRIVEN
+========================================= */
+
+
+/* =========================================
+ADD NEW ROW
+========================================= */
+
+function addRow(){
+
+    if(
+
+        !STATE.currentPeriod
+
+    ){
+
+        alert(
+            "Pilih periode terlebih dahulu"
+        );
+
+        return;
+    }
+
+
+    if(
+
+        STATE.editingId !== null
+
+    ){
+
+        alert(
+            "Selesaikan baris aktif terlebih dahulu"
+        );
+
+        return;
+    }
+
+
+    let row = createRow({
+
+        locked : false
+
+    });
+
+
+    STATE.rows.push(row);
+
+    STATE.editingId = row.id;
+
+    refresh();
+
+}
+
+
+
+/* =========================================
+INSERT ROW BELOW
+inherit same date
+========================================= */
+
+function insertRow(id){
+
+    if(
+
+        STATE.editingId !== null
+
+    ){
+
+        alert(
+            "Masih ada draft aktif"
+        );
+
+        return;
+    }
+
+
+    let index =
+
+        STATE.rows.findIndex(
+
+            row=>row.id===id
+
+        );
+
+
+    if(index===-1){
+
+        return;
+    }
+
+
+   if(
+    !STATE.rows[index]
+){
+    return;
+}
+
+let parent =
+    STATE.rows[index];
+
+
+    let newRow = createRow({
+
+        tanggal :
+
+            parent.tanggal,
+
+        locked : false
+
+    });
+
+
+    STATE.rows.splice(
+
+        index + 1,
+
+        0,
+
+        newRow
+
+    );
+
+
+    STATE.editingId =
+
+        newRow.id;
+
+
+    refresh();
+
+}
+
+
+
+/* =========================================
+EDIT ROW
+========================================= */
+
+function editRow(id){
+
+    if(
+
+        STATE.editingId !== null
+
+    ){
+
+        alert(
+            "Masih ada draft aktif"
+        );
+
+        return;
+    }
+
+
+    let ok = confirm(
+
+        "Edit baris ini?"
+
+    );
+
+
+    if(!ok){
+
+        return;
+    }
+
+
+    let row =
+
+        findRow(id);
+
+
+    if(!row){
+
+        return;
+    }
+
+
+    row.locked = false;
+
+    STATE.editingId = id;
+
+    refresh();
+
+}
+
+
+
+/* =========================================
+VALIDATION ENGINE
+========================================= */
+
+function validateRow(row){
+
+    let tanggal =
+    Number(row.tanggal);
+
+if(
+    !row.tanggal.trim()
+){
+    alert(
+        "Date wajib diisi"
+    );
+    return false;
+}
+
+if(
+    tanggal < 1 ||
+    tanggal > 31
+){
+    alert(
+        "Tanggal harus 01 - 31"
+    );
+    return false;
+}
+
+
+    if(
+
+        !row.start.trim()
+
+        &&
+
+        !row.arrive.trim()
+
+        &&
+
+        !row.parking.trim()
+
+    ){
+
+        alert(
+
+            "Isi minimal Start / Arrive / Parking"
+
+        );
+
+        return false;
+    }
+
+
+    if(
+
+        !row.flazz.trim()
+
+        &&
+
+        !row.cash.trim()
+
+    ){
+
+        alert(
+
+            "Isi minimal Flazz atau Cash"
+
+        );
+
+        return false;
+    }
+
+
+    return true;
+
+}
+
+
+
+/* =========================================
+SAVE ROW
+========================================= */
+
+function saveRow(id){
+
+    let row =
+
+        findRow(id);
+
+
+    if(!row){
+
+        return;
+    }
+
+
+    if(
+
+        !validateRow(row)
+
+    ){
+
+        return;
+    }
+
+
+    let ok = confirm(
+
+        "Data sudah benar?"
+
+    );
+
+
+    if(!ok){
+
+        return;
+    }
+
+
+    row.locked = true;
+
+    STATE.editingId = null;
+
+    refresh();
+
+}
+
+
+
+/* =========================================
+DELETE ROW
+draft + locked
+========================================= */
+
+function deleteRow(id){
+
+    let ok = confirm(
+
+        "Hapus baris ini?"
+
+    );
+
+
+    if(!ok){
+
+        return;
+    }
+
+
+    let row =
+    findRow(id);
+
+if(!row){
+    return;
+}
+
+deleteById(id);
+
+
+    if(
+
+        STATE.editingId === id
+
+    ){
+
+        STATE.editingId = null;
+    }
+
+
+    refresh();
+
+}
+
+
+
+/* =========================================
+UPDATE FIELD
+sync input → STATE
+========================================= */
+function updateField(id, field, value){
+    let row = findRow(id);
+    if(!row) return;
+
+    row[field] = value;
+
+    triggerAutoSave(); // hanya save, NO render
+}
+
+
+/* =========================================
+BUTTON ROUTER
+========================================= */
+
+function handleAction(
+
+    action,
+
+    id
+
+){
+
+    id = Number(id);
+
+
+    if(
+
+        action==="add"
+
+    ){
+
+        addRow();
+
+        return;
+    }
+
+
+    if(
+
+        action==="insert"
+
+    ){
+
+        insertRow(id);
+
+        return;
+    }
+
+
+    if(
+
+        action==="edit"
+
+    ){
+
+        editRow(id);
+
+        return;
+    }
+
+
+    if(
+
+        action==="save"
+
+    ){
+
+        saveRow(id);
+
+        return;
+    }
+
+
+    if(
+
+        action==="delete"
+
+    ){
+
+        deleteRow(id);
+
+        return;
+    }
+
+}
+
+
+
+/* =========================================
+INPUT FIELD ROUTER
+========================================= */
+
+function handleInput(element){
+
+    let tr =
+        element.closest("tr");
+
+    if(!tr){
+        return;
+    }
+
+    let id =
+        Number(
+            tr.dataset.id
+        );
+
+    let field = "";
+
+    if(
+        element.classList.contains(
+            "tanggal"
+        )
+    ){
+        field = "tanggal";
+    }
+
+    else if(
+        element.classList.contains(
+            "start"
+        )
+    ){
+        field = "start";
+    }
+
+    else if(
+        element.classList.contains(
+            "arrive"
+        )
+    ){
+        field = "arrive";
+    }
+
+    else if(
+        element.classList.contains(
+            "parkingLoc"
+        )
+    ){
+        field = "parking";
+    }
+
+    else if(
+        element.classList.contains(
+            "flazz"
+        )
+    ){
+        field = "flazz";
+    }
+
+    else if(
+        element.classList.contains(
+            "cash"
+        )
+    ){
+        field = "cash";
+    }
+
+    else if(
+        element.classList.contains(
+            "km"
+        )
+    ){
+        field = "km";
+    }
+
+    if(!field){
+        return;
+    }
+
+    let value = element.value;
+
+
+    /* =========================
+       FLAZZ + CASH
+       SIMPAN FORMAT RUPIAH
+    ========================= */
+
+    if(
+        field === "flazz"
+        ||
+        field === "cash"
+    ){
+
+        let numeric =
+            parseCurrency(value);
+
+        let formatted =
+            formatCurrency(numeric);
+
+        /* tampil realtime */
+
+        element.value =
+            formatted;
+
+        /* simpan ke state format rupiah */
+
+        updateField(
+            id,
+            field,
+            formatted
+        );
+
+        return;
+    }
+
+
+    /* field normal */
+
+    updateField(
+        id,
+        field,
+        value
+    );
+
+}
+
+/* =========================================
+PART 5
+EVENT ENGINE + BOOT SYSTEM
+FINAL CLEAN ARCHITECTURE V4
+========================================= */
+
+
+/* =========================================
+EVENT DELEGATION TABLE
+single listener only
+========================================= */
+
+function bindTableEvents(){
+
+    DOM.tableBody.addEventListener(
+
+        "click",
+
+        function(e){
+
+            let btn =
+
+                e.target.closest("button");
+
+
+            if(!btn){
+
+                return;
+            }
+
+
+            let id =
+
+                btn.dataset.id;
+
+
+            if(
+
+                btn.classList.contains(
+                    "btnInsert"
+                )
+
+            ){
+
+                handleAction(
+
+                    "insert",
+
+                    id
+
+                );
+
+                return;
+            }
+
+
+            if(
+
+                btn.classList.contains(
+                    "btnEdit"
+                )
+
+            ){
+
+                handleAction(
+
+                    "edit",
+
+                    id
+
+                );
+
+                return;
+            }
+
+
+            if(
+
+                btn.classList.contains(
+                    "btnSave"
+                )
+
+            ){
+
+                handleAction(
+
+                    "save",
+
+                    id
+
+                );
+
+                return;
+            }
+
+
+            if(
+
+                btn.classList.contains(
+                    "btnDelete"
+                )
+
+            ){
+
+                handleAction(
+
+                    "delete",
+
+                    id
+
+                );
+
+                return;
+            }
+
+        }
+
+    );
+
+
+    /* input realtime */
+
+    DOM.tableBody.addEventListener(
+
+        "input",
+
+        function(e){
+
+            let input =
+
+                e.target.closest("input");
+
+
+            if(!input){
+
+                return;
+            }
+
+
+            handleInput(input);
+
+        }
+
+    );
+
+}
+
+
+
+/* =========================================
+GLOBAL EVENTS
+========================================= */
+
+function bindGlobalEvents(){
+
+
+    /* add row */
+
+    DOM.btnAddRow.addEventListener(
+
+        "click",
+
+        function(){
+
+            handleAction(
+                "add"
+            );
+
+        }
+
+    );
+
+
+    /* period change */
+
+    DOM.bulan.addEventListener(
+
+        "change",
+
+        function(){
+
+            if(
+
+                STATE.editingId!==null
+
+            ){
+
+                let ok = confirm(
+
+                   "Masih ada edit aktif. Data yang belum disimpan akan hilang. Lanjut?"
+
+                );
+
+                if(!ok){
+
+                    return;
+                }
+
+                STATE.editingId = null;
+            }
+
+            loadPeriodData();
+
+        }
+
+    );
+
+
+    DOM.tahun.addEventListener(
+
+        "change",
+
+        function(){
+
+            if(
+
+                STATE.editingId!==null
+
+            ){
+
+                let ok = confirm(
+
+                   "Masih ada edit aktif. Data yang belum disimpan akan hilang. Lanjut?"
+
+                );
+
+                if(!ok){
+
+                    return;
+                }
+
+                STATE.editingId = null;
+            }
+
+            loadPeriodData();
+
+        }
+
+    );
+
+
+    /* profile */
+
+    document
+
+    .getElementById(
+        "btnSaveProfile"
+    )
+
+    .addEventListener(
+
+        "click",
+
+        saveProfile
+
+    );
+
+
+    document
+
+    .getElementById(
+        "btnEditProfile"
+    )
+
+    .addEventListener(
+
+        "click",
+
+        editProfile
+
+    );
+
+
+    /* shortcut profile */
+
+    document
+
+    .getElementById(
+        "profileShortcut"
+    )
+
+    .addEventListener(
+
+        "click",
+
+        function(){
+
+            showPage(
+                "profile"
+            );
+
+        }
+
+    );
+
+
+    /* sidebar navigation */
+
+    qsa(".menu")
+
+    .forEach(menu=>{
+
+        menu.addEventListener(
+
+            "click",
+
+            function(){
+
+                let page =
+
+                    this.dataset.page;
+
+
+                showPage(page);
+
+            }
+
+        );
+
+    });
+
+}
+
+
+
+/* =========================================
+BOOT
+========================================= */
+
+function bootApp(){
+
+
+    /* load profile */
+
+    Storage.loadProfile();
+
+    loadProfileToUI();
+
+
+    /* restore period */
+
+    Storage.restorePeriod();
+
+
+    /* load rows */
+
+    if(
+
+        STATE.currentPeriod
+
+    ){
+
+        Storage.loadRows();
+    }
+
+
+    /* bind */
+
+    bindGlobalEvents();
+
+    bindTableEvents();
+
+
+    /* first render */
+
+    renderTable();
+
+
+    /* default page */
+
+    showPage("input");
+
+
+
+    console.log(
+
+        "FINAL CLEAN ARCHITECTURE V4 READY"
+
+    );
+
+}
+
+
+
+/* =========================================
+WINDOW LOAD
+========================================= */
+
+window.addEventListener(
+
+    "load",
+
+    bootApp
+
+);
+
+</script>
+
+</body>
+</html>
