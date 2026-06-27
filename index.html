@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PT JASA MANDIRI TECHGRAHA</title>
+
+<style>
+
+/* =========================
+RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+html{
+    width:100%;
+    overflow-x:hidden;
+}
+
+body{
+    background:#f4f7fb;
+    padding:12px;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* =========================
+HEADER
+========================= */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.company h1{
+    font-size:14px;
+    line-height:1.3;
+}
+
+.company p{
+    font-size:10px;
+    color:red;
+}
+
+.profile-name{
+    font-size:9px;
+    margin-top:6px;
+    color:#000;
+    font-weight:700;
+    text-transform:uppercase;
+    line-height:1.2;
+}
+
+.profile{
+    width:56px;
+    height:56px;
+    cursor:pointer;
+}
+
+/* =========================
+CARDS
+========================= */
+
+.period-card,
+.table-card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.period-card{
+    margin-bottom:20px;
+}
+
+.table-card{
+    margin-bottom:20px;
+}
+
+/* =========================
+PERIOD
+========================= */
+
+.period-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:nowrap;
+}
+
+.period-row label{
+    font-weight:bold;
+    margin-right:4px;
+}
+
+select{
+    height:38px;
+    padding:0 10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    width:140px;
+    background:white;
+    border:1px solid #000; 
+}
+
+/* =========================
+TABLE
+========================= */
+
+.table-header{
+    margin-bottom:15px;
+}
+
+.table-header h4{
+    font-size:12px;
+    color:#1f2937;
+}
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+
+
+/* =========================
+TABLE
+========================= */
+
+#mainTable{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+    border:1px solid #000;   /* outer border hitam */
+}
+
+th{
+    background:#eef2f7;
+    border:1px solid #000;  
+    padding:10px;
+    font-size:10px;
+    white-space:nowrap;
+}
+
+td{
+    border:1px solid #000;
+    padding:5px 6px;
+    font-size:9px;
+    line-height:1.2;
+    height:28px;
+    vertical-align:middle;
+}
+
+
+.date-cell{
+    text-align:center;
+    vertical-align:middle;   /* posisi tengah atas-bawah */
+    font-weight:bold;
+}
+
+.total-cell{
+    text-align:center;
+    font-weight:bold;
+    border:1px solid #000;
+}
+
+.hidden-datefull{
+    display:none;
+}
+
+.placeholder{
+    color:#999;
+    text-align:center;
+}
+
+/* =========================
+ACTION BUTTONS
+========================= */
+
+.action-cell{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:1px;
+    padding:0 !important;
+}
+
+.action-btn{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-size:12px;
+    padding:1px;
+}
+
+/* =========================
+BOTTOM ACTIONS
+========================= */
+
+.bottom-actions{
+    margin-top:14px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+.subtotal-box{
+    min-width:230px;
+    border:1px solid #ddd;
+    padding:10px 14px;
+    border-radius:8px;
+    background:#fafafa;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.subtotal-value{
+    float:right;
+}
+
+/* =========================
+MODAL BASE
+========================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.25);
+    z-index:999;
+    padding:20px;
+}
+
+.modal-card{
+    width:100%;
+    max-width:720px;
+    background:#fff;
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+
+/* =========================
+PROFILE TABLE
+========================= */
+
+.profile-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:20px;
+}
+
+.profile-table td{
+    font-size:12px;
+}
+
+.profile-table td:first-child{
+    width:1%;
+    white-space:nowrap;
+    padding-right:12px;
+    background:#f7f8fa;
+    font-weight:bold;
+}
+
+/* =========================
+TITLE
+========================= */
+
+.modal-title{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:18px;
+    color:#1f2937;
+    text-align:center;
+}
+
+/* =========================
+INPUT
+========================= */
+
+input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+    font-size:12px;
+}
+
+.currency-input{
+    text-align:right;
+}
+
+/* =========================
+INPUT GRID
+========================= */
+
+.input-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.full{
+    grid-column:1 / span 2;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+}
+
+.primary-btn{
+    border:none;
+    padding:11px 22px;
+    cursor:pointer;
+    border-radius:8px;
+    background:#1f2937;
+    color:white;
+    font-size:12px;
+}
+
+.secondary-btn{
+    background:#6b7280;
+}
+
+/* =========================
+DELETE CONFIRM
+========================= */
+
+.confirm-box{
+    width:100%;
+    max-width:360px;
+    background:#fff;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+}
+
+.confirm-text{
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.confirm-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    .input-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .primary-btn{
+        width:100%;
+    }
+
+    .bottom-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="company">
+        <h1>PT JASA MANDIRI TECHGRAHA</h1>
+        <p>Continuous Improvement!</p>
+
+        <div id="profileNameDisplay"
+             class="profile-name"></div>
+    </div>
+
+    <div class="profile" id="profileBtn">
+
+        <svg width="38"
+             height="38"
+             viewBox="0 0 24 24"
+             fill="none">
+
+            <circle cx="12"
+                    cy="8"
+                    r="4"
+                    stroke="#9aa0a6"
+                    stroke-width="1.8"/>
+
+            <path d="M5 20C5 16.5 8 14 12 14C16 14 19 16.5 19 20"
+                  stroke="#9aa0a6"
+                  stroke-width="1.8"/>
+
+        </svg>
+
+    </div>
+
+</div>
+
+<div class="period-card">
+
+    <div class="period-row">
+
+        <label>Period</label>
+
+        <select id="monthSelect">
+            <option value="">Month</option>
+            <option>Januari</option>
+            <option>Februari</option>
+            <option>Maret</option>
+            <option>April</option>
+            <option>Mei</option>
+            <option>Juni</option>
+            <option>Juli</option>
+            <option>Agustus</option>
+            <option>September</option>
+            <option>Oktober</option>
+            <option>November</option>
+            <option>Desember</option>
+        </select>
+
+        <select id="yearSelect">
+            <option value="">Year</option>
+            <option>2026</option>
+            <option>2027</option>
+            <option>2028</option>
+            <option>2029</option>
+            <option>2030</option>
+        </select>
+
+    </div>
+
+</div>
+
+<!-- =========================
+TABLE CARD
+========================= -->
+
+<div class="table-card">
+
+    <div class="table-header">
+        <h4>Detail Payment</h4>
+    </div>
+
+    <div class="table-wrapper">
+
+        <table id="mainTable">
+
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th class="hidden-datefull">Date Full</th>
+                    <th>Start</th>
+                    <th>Arrive</th>
+                    <th>Parking Loc</th>
+                    <th>Flazz</th>
+                    <th>Cash</th>
+                    <th>KM</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableBody">
+
+                <!-- placeholder awal -->
+
+                <tr id="placeholderRow">
+
+                    <td class="placeholder">-</td>
+                    <td class="hidden-datefull">-</td>
+                    <td class="placeholder">-</td>
+                    <td class="placeholder">-</td>
+                    <td class="placeholder">-</td>
+                    <td class="placeholder">-</td>
+                    <td class="placeholder">-</td>
+                    <td class="placeholder">-</td>
+                    <td class="placeholder">-</td>
+
+                    <td class="action-cell">
+
+                        <button
+                            id="firstEditBtn"
+                            class="action-btn">
+
+                            ✏️
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- SUBTOTAL -->
+
+    <div class="bottom-actions">
+
+        <div class="subtotal-box">
+
+            Sub Total
+
+            <span id="subtotalValue"
+                  class="subtotal-value">
+
+                Rp 0
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+PROFILE MODAL
+========================= -->
+
+<div id="profileModal"
+     class="modal-overlay">
+
+    <div class="modal-card">
+
+        <h3 class="modal-title">
+            PROFILE
+        </h3>
+
+        <table class="profile-table">
+
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input id="employeeName"
+                           type="text"
+                           placeholder="Input Name">
+                </td>
+            </tr>
+
+            <tr>
+                <td>NIK</td>
+                <td>
+                    <input id="employeeNik"
+                           type="text"
+                           placeholder="Input NIK">
+                </td>
+            </tr>
+
+            <tr>
+                <td>User</td>
+                <td>
+                    <input id="employeeUser"
+                           type="text"
+                           placeholder="Input User">
+                </td>
+            </tr>
+
+            <tr>
+                <td>Car Number</td>
+                <td>
+                    <input id="employeeLocation"
+                           type="text"
+                           placeholder="Input Car Number">
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="form-actions">
+
+            <button id="closeProfileBtn"
+                    class="primary-btn secondary-btn">
+
+                Cancel
+
+            </button>
+
+            <button id="saveProfileBtn"
+                    class="primary-btn">
+
+                Save
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+INPUT DATA MODAL
+========================= -->
+
+<div id="formModal"
+     class="modal-overlay">
+
+    <div class="modal-card">
+
+        <div class="input-grid">
+
+            <div>
+                <label>Date Full</label>
+
+                <input id="inputDateFull"
+                       type="date">
+            </div>
+
+            <div>
+                <label>Start</label>
+
+                <input id="inputStart"
+                       type="text">
+            </div>
+
+            <div>
+                <label>Arrive</label>
+
+                <input id="inputArrive"
+                       type="text">
+            </div>
+
+            <div class="full">
+                <label>Parking Location</label>
+
+                <input id="inputParking"
+                       type="text">
+            </div>
+
+            <div>
+                <label>Flazz</label>
+
+                <input id="inputFlazz"
+                       class="currency-input"
+                       type="text"
+                       inputmode="numeric"
+                       placeholder="Rp 0">
+            </div>
+
+            <div>
+                <label>Cash</label>
+
+                <input id="inputCash"
+                       class="currency-input"
+                       type="text"
+                       inputmode="numeric"
+                       placeholder="Rp 0">
+            </div>
+
+            <div>
+                <label>KM</label>
+
+                <input id="inputKm"
+                       type="number">
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button id="cancelFormBtn"
+                    class="primary-btn secondary-btn">
+
+                Cancel
+
+            </button>
+
+            <button id="saveRowBtn"
+                    class="primary-btn">
+
+                Save Data
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+DELETE MODAL
+========================= -->
+
+<div id="deleteConfirmModal"
+     class="modal-overlay">
+
+    <div class="confirm-box">
+
+        <div class="confirm-text">
+
+            Yakin ingin menghapus data ini?
+
+        </div>
+
+        <div class="confirm-buttons">
+
+            <button id="cancelDeleteBtn"
+                    class="primary-btn secondary-btn">
+
+                Cancel
+
+            </button>
+
+            <button id="confirmDeleteBtn"
+                    class="primary-btn">
+
+                Delete
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+PART 3 = FULL JS FINAL
+========================= -->
+
+<script>
+    
+/* =========================
+STATE
+========================= */
+
+let tableData = [];
+let editIndex = null;
+let deleteIndex = null;
+
+
+/* profile lock */
+let profileLocked = false;
+
+
+/* =========================
+ELEMENTS
+========================= */
+
+const tableBody = document.getElementById("tableBody");
+const subtotalValue = document.getElementById("subtotalValue");
+
+const formModal = document.getElementById("formModal");
+const profileModal = document.getElementById("profileModal");
+const deleteConfirmModal = document.getElementById("deleteConfirmModal");
+
+const firstEditBtn = document.getElementById("firstEditBtn");
+const cancelFormBtn = document.getElementById("cancelFormBtn");
+const saveRowBtn = document.getElementById("saveRowBtn");
+
+const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+const profileBtn = document.getElementById("profileBtn");
+const closeProfileBtn = document.getElementById("closeProfileBtn");
+const saveProfileBtn = document.getElementById("saveProfileBtn");
+
+const profileNameDisplay = document.getElementById("profileNameDisplay");
+
+const inputDateFull = document.getElementById("inputDateFull");
+const inputStart = document.getElementById("inputStart");
+const inputArrive = document.getElementById("inputArrive");
+const inputParking = document.getElementById("inputParking");
+const inputFlazz = document.getElementById("inputFlazz");
+const inputCash = document.getElementById("inputCash");
+const inputKm = document.getElementById("inputKm");
+
+const monthSelect = document.getElementById("monthSelect");
+const yearSelect = document.getElementById("yearSelect");
+
+
+/* =========================
+MODAL
+========================= */
+
+function openModal(modal){
+    modal.style.display = "flex";
+}
+
+function closeModal(modal){
+    modal.style.display = "none";
+}
+
+function setProfileLock(lock){
+
+    profileLocked = lock;
+
+    document.getElementById("employeeName").readOnly = lock;
+    document.getElementById("employeeNik").readOnly = lock;
+    document.getElementById("employeeUser").readOnly = lock;
+    document.getElementById("employeeLocation").readOnly = lock;
+
+    if(lock){
+
+        saveProfileBtn.textContent = "Edit";
+
+    }else{
+
+        saveProfileBtn.textContent = "Save";
+
+    }
+
+}
+
+/* =========================
+HELPERS
+========================= */
+
+function formatRupiah(value){
+    value = value.replace(/\D/g,"");
+    if(value==="") return "";
+    return "Rp " + Number(value).toLocaleString("id-ID");
+}
+
+function parseRupiah(value){
+    return Number(value.replace(/[^\d]/g,"") || 0);
+}
+
+function extractDate(dateFull){
+    if(!dateFull) return "";
+    let p = dateFull.split("-");
+    return Number(p[2]);
+}
+
+
+/* =========================
+INPUT FORMAT LIVE
+========================= */
+
+inputFlazz.addEventListener("input",()=>{
+    inputFlazz.value = formatRupiah(inputFlazz.value);
+});
+
+inputCash.addEventListener("input",()=>{
+    inputCash.value = formatRupiah(inputCash.value);
+});
+
+
+/* =========================
+PERIOD KEY
+========================= */
+
+function getPeriodKey(){
+    let month = monthSelect.value || "defaultMonth";
+    let year = yearSelect.value || "defaultYear";
+    return "table_" + month + "_" + year;
+}
+
+
+/* =========================
+SAVE TABLE LOCAL
+========================= */
+
+function saveTableData(){
+    localStorage.setItem(
+        getPeriodKey(),
+        JSON.stringify(tableData)
+    );
+}
+
+
+/* =========================
+SUBTOTAL
+========================= */
+
+function updateSubtotal(){
+
+    let total = 0;
+
+    tableData.forEach(item=>{
+        total += item.total;
+    });
+
+    subtotalValue.textContent =
+    "Rp " + total.toLocaleString("id-ID");
+
+}
+
+
+/* =========================
+CLEAR FORM
+========================= */
+
+function clearForm(){
+
+    inputDateFull.value = "";
+    inputStart.value = "";
+    inputArrive.value = "";
+    inputParking.value = "";
+    inputFlazz.value = "";
+    inputCash.value = "";
+    inputKm.value = "";
+
+    editIndex = null;
+
+}
+
+
+/* =========================
+VALIDATE FORM
+========================= */
+
+function validateForm(){
+
+    let lokasi =
+    inputStart.value.trim() ||
+    inputArrive.value.trim() ||
+    inputParking.value.trim();
+
+    let biaya =
+    parseRupiah(inputFlazz.value) ||
+    parseRupiah(inputCash.value);
+
+    if(!inputDateFull.value){
+        alert("Date wajib diisi");
+        return false;
+    }
+
+    /* VALIDASI PERIOD */
+    if(monthSelect.value && yearSelect.value){
+
+        const bulanMap = {
+            "Januari":0,
+            "Februari":1,
+            "Maret":2,
+            "April":3,
+            "Mei":4,
+            "Juni":5,
+            "Juli":6,
+            "Agustus":7,
+            "September":8,
+            "Oktober":9,
+            "November":10,
+            "Desember":11
+        };
+
+        let inputDate = new Date(inputDateFull.value);
+
+        let inputMonth = inputDate.getMonth();
+        let inputYear = inputDate.getFullYear();
+
+        let selectedMonth = bulanMap[monthSelect.value];
+        let selectedYear = Number(yearSelect.value);
+
+        if(inputMonth !== selectedMonth || inputYear !== selectedYear){
+            alert("Tanggal harus sesuai Period yang dipilih");
+            return false;
+        }
+    }
+
+    if(!lokasi){
+        alert("Isi Start / Arrive / Parking");
+        return false;
+    }
+
+    if(!biaya){
+        alert("Isi Flazz / Cash");
+        return false;
+    }
+
+    return true;
+}
+
+/* =========================
+RENDER TABLE
+========================= */
+
+function renderTable(){
+
+    if(tableData.length===0){
+
+        tableBody.innerHTML = `
+        <tr id="placeholderRow">
+
+            <td class="placeholder">-</td>
+            <td class="hidden-datefull">-</td>
+            <td class="placeholder">-</td>
+            <td class="placeholder">-</td>
+            <td class="placeholder">-</td>
+            <td class="placeholder">-</td>
+            <td class="placeholder">-</td>
+            <td class="placeholder">-</td>
+            <td class="placeholder">-</td>
+
+            <td class="action-cell">
+                <button id="firstEditBtn"
+                        class="action-btn">✏️</button>
+            </td>
+
+        </tr>`;
+
+        document
+        .getElementById("firstEditBtn")
+        .onclick = ()=>{
+            clearForm();
+            openModal(formModal);
+        };
+
+        updateSubtotal();
+        return;
+    }
+
+    /* sort by date */
+    tableData.sort((a,b)=>
+        new Date(a.dateFull)-new Date(b.dateFull)
+    );
+
+    let html = "";
+
+    let grouped = {};
+let dateTotals = {};
+
+/* grouping dulu */
+tableData.forEach((row,index)=>{
+
+    if(!grouped[row.dateFull]){
+        grouped[row.dateFull] = [];
+    }
+
+    grouped[row.dateFull].push({
+        ...row,
+        index:index
+    });
+
+});
+
+/* baru hitung total per tanggal */
+Object.keys(grouped).forEach(dateKey=>{
+
+    let totalPerDate = 0;
+
+    grouped[dateKey].forEach(row=>{
+
+        totalPerDate += Number(row.flazz || 0);
+        totalPerDate += Number(row.cash || 0);
+
+    });
+
+    dateTotals[dateKey] = totalPerDate;
+
+});
+
+    Object.keys(grouped).forEach(dateKey=>{
+
+        let rows = grouped[dateKey];
+
+        rows.forEach((row,rowIndex)=>{
+
+            html += "<tr>";
+
+            /* selalu merge jika date sama */
+
+if(rowIndex===0){
+
+    html += `
+    <td class="date-cell"
+        rowspan="${rows.length}">
+        ${extractDate(row.dateFull)}
+    </td>
+
+    <td class="hidden-datefull"
+        rowspan="${rows.length}">
+        ${row.dateFull}
+    </td>
+    `;
+}
+
+            html += `
+
+            <td>${row.start}</td>
+<td>${row.arrive}</td>
+<td>${row.parking}</td>
+
+<td>
+    ${row.flazz===0 ? "" : formatRupiah(String(row.flazz))}
+</td>
+
+<td>
+    ${row.cash===0 ? "" : formatRupiah(String(row.cash))}
+</td>
+
+<td>${row.km}</td>
+
+${rowIndex===0 ? `
+<td class="total-cell"
+    rowspan="${rows.length}">
+    ${dateTotals[row.dateFull]===0
+        ? ""
+        : formatRupiah(String(dateTotals[row.dateFull]))}
+</td>
+` : ""}
+
+            <td class="action-cell">
+
+                <button
+                    onclick="editRow(${row.index})"
+                    class="action-btn">
+
+                    ✏️
+
+                </button>
+
+                <button
+                    onclick="askDelete(${row.index})"
+                    class="action-btn">
+
+                    🗑️
+
+                </button>
+
+                <button
+                    onclick="addNewRow(${row.index})"
+                    class="action-btn">
+
+                    ➕
+
+                </button>
+
+            </td>
+
+            </tr>
+            `;
+
+        });
+
+    });
+
+    tableBody.innerHTML = html;
+
+    updateSubtotal();
+}
+
+
+/* =========================
+SAVE ROW
+========================= */
+
+saveRowBtn.onclick = ()=>{
+
+    if(!validateForm()) return;
+
+    let confirmSave = confirm("Data sudah benar?");
+
+    if(!confirmSave){
+        return;
+    }
+
+    let flazz = parseRupiah(inputFlazz.value);
+    let cash = parseRupiah(inputCash.value);
+
+    let obj = {
+
+    dateFull : inputDateFull.value,
+    start : inputStart.value,
+    arrive : inputArrive.value,
+    parking : inputParking.value,
+    flazz : flazz,
+    cash : cash,
+    km : inputKm.value,
+    total : flazz + cash,
+
+    
+};
+
+    if(editIndex===null){
+
+    /* mode tambah dari tombol + */
+    if(addBelowIndex !== null){
+
+        let targetDate = tableData[addBelowIndex].dateFull;
+
+        /* insert di bawah row yang dipilih */
+        tableData.splice(addBelowIndex + 1, 0, obj);
+
+        addBelowIndex = null;
+
+    }else{
+
+        /* tambah normal */
+        tableData.push(obj);
+
+    }
+
+}else{
+
+    /* edit normal */
+    obj.split = tableData[editIndex].split || false;
+
+    tableData[editIndex] = obj;
+}
+
+    saveTableData();
+    renderTable();
+    clearForm();
+    closeModal(formModal);
+
+};
+
+
+/* =========================
+EDIT ROW
+========================= */
+
+window.addNewRow = function(index){
+
+    addBelowIndex = index;
+
+    clearForm();
+
+    /* otomatis isi tanggal sama */
+    inputDateFull.value = tableData[index].dateFull;
+
+    openModal(formModal);
+}
+window.editRow = function(index){
+
+    let row = tableData[index];
+
+    editIndex = index;
+
+    inputDateFull.value = row.dateFull;
+    inputStart.value = row.start;
+    inputArrive.value = row.arrive;
+    inputParking.value = row.parking;
+    inputFlazz.value = formatRupiah(String(row.flazz));
+    inputCash.value = formatRupiah(String(row.cash));
+    inputKm.value = row.km;
+
+    openModal(formModal);
+
+}
+
+/* =========================
+DELETE
+========================= */
+
+window.askDelete = function(index){
+
+    deleteIndex = index;
+
+    openModal(deleteConfirmModal);
+
+}
+
+confirmDeleteBtn.onclick = ()=>{
+
+    if(deleteIndex!==null){
+
+        tableData.splice(deleteIndex,1);
+
+        saveTableData();
+        renderTable();
+
+        deleteIndex = null;
+    }
+
+    closeModal(deleteConfirmModal);
+
+}
+
+cancelDeleteBtn.onclick = ()=>{
+
+    closeModal(deleteConfirmModal);
+
+}
+
+
+/* =========================
+PROFILE
+========================= */
+
+function saveProfile(){
+
+    let name =
+    document.getElementById("employeeName").value;
+
+    let nik =
+    document.getElementById("employeeNik").value;
+
+    let user =
+    document.getElementById("employeeUser").value;
+
+    let car =
+    document.getElementById("employeeLocation").value;
+
+    localStorage.setItem("employeeName",name);
+    localStorage.setItem("employeeNik",nik);
+    localStorage.setItem("employeeUser",user);
+    localStorage.setItem("employeeCar",car);
+
+    profileNameDisplay.textContent = name;
+
+    setProfileLock(true);   // penting
+}
+
+function loadProfile(){
+
+    let name = localStorage.getItem("employeeName") || "";
+    let nik = localStorage.getItem("employeeNik") || "";
+    let user = localStorage.getItem("employeeUser") || "";
+    let car = localStorage.getItem("employeeCar") || "";
+
+    document.getElementById("employeeName").value = name;
+    document.getElementById("employeeNik").value = nik;
+    document.getElementById("employeeUser").value = user;
+    document.getElementById("employeeLocation").value = car;
+
+    profileNameDisplay.textContent = name;
+
+    if(name){
+
+        setProfileLock(true);
+
+    }else{
+
+        setProfileLock(false);
+
+    }
+
+}
+
+saveProfileBtn.onclick = ()=>{
+
+    if(profileLocked){
+
+        // mode edit → buka kunci input
+        setProfileLock(false);
+
+    }else{
+
+        // konfirmasi sebelum simpan
+        let confirmSave = confirm("Data sudah benar?");
+
+        if(!confirmSave){
+            return;
+        }
+
+        saveProfile();
+
+        closeModal(profileModal);
+
+    }
+
+}
+profileBtn.onclick = ()=>{
+
+    // ambil ulang data tersimpan
+    loadProfile();
+
+    // buka modal
+    openModal(profileModal);
+
+}
+
+closeProfileBtn.onclick = ()=>{
+
+    closeModal(profileModal);
+
+}
+/* =========================
+PERIOD
+========================= */
+
+function savePeriod(){
+
+    localStorage.setItem(
+        "savedMonth",
+        monthSelect.value
+    );
+
+    localStorage.setItem(
+        "savedYear",
+        yearSelect.value
+    );
+
+}
+
+function loadPeriod(){
+
+    let m =
+    localStorage.getItem("savedMonth");
+
+    let y =
+    localStorage.getItem("savedYear");
+
+    if(m) monthSelect.value = m;
+    if(y) yearSelect.value = y;
+
+}
+
+monthSelect.addEventListener("change",()=>{
+
+    savePeriod();
+
+    loadTable();
+
+});
+
+yearSelect.addEventListener("change",()=>{
+
+    savePeriod();
+
+    loadTable();
+
+});
+
+
+/* =========================
+LOAD TABLE
+========================= */
+
+function loadTable(){
+
+    let saved =
+    localStorage.getItem(getPeriodKey());
+
+    if(saved){
+
+        tableData = JSON.parse(saved);
+
+    }else{
+
+        tableData = [];
+    }
+
+    renderTable();
+}
+
+
+/* =========================
+BUTTONS
+========================= */
+
+cancelFormBtn.onclick = ()=>{
+
+    closeModal(formModal);
+
+}
+
+firstEditBtn.onclick = ()=>{
+
+    clearForm();
+
+    openModal(formModal);
+
+}
+
+
+/* =========================
+START
+========================= */
+
+window.onload = ()=>{
+
+    loadProfile();
+    loadPeriod();
+    loadTable();
+
+};
+</script>
+
+</body>
+</html>
